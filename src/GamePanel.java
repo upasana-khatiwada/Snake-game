@@ -10,7 +10,7 @@ public class GamePanel extends JPanel implements ActionListener {
     static final int SCREEN_HEIGHT=600;
     static final int UNIT_SIZE = 25;//each item in this game is going to have a dimension of 25 pixels for width and height
     static final int GAME_UNITS = (SCREEN_WIDTH*SCREEN_HEIGHT)/UNIT_SIZE;
-    static final int DELAY = 75;//speed of game where we decrease the delay time then level of game increase
+    static final int DELAY = 85;//speed of game where we decrease the delay time then level of game increase
     final int x[ ]= new int[GAME_UNITS] ;//x position of snake
     final int y[]= new int [GAME_UNITS];//y position of the snake
     int bodyParts =6; //initial body part of snake
@@ -44,33 +44,37 @@ public class GamePanel extends JPanel implements ActionListener {
         draw(g);
 
     }
-    //to draw the grid to help to understand about pixels
     public void draw(Graphics g){
+
         if(running){
-            for(int i=0;i<SCREEN_HEIGHT/UNIT_SIZE;i++)
-            {
-                g.drawLine(i*UNIT_SIZE,0,i*UNIT_SIZE,SCREEN_HEIGHT);
-                g.drawLine(0,i*UNIT_SIZE,SCREEN_WIDTH,i*UNIT_SIZE);
+            //to draw the grid to help to understand about pixels
 
-
-            }
+//            for(int i=0;i<SCREEN_HEIGHT/UNIT_SIZE;i++)
+//            {
+//                g.drawLine(i*UNIT_SIZE,0,i*UNIT_SIZE,SCREEN_HEIGHT);
+//                g.drawLine(0,i*UNIT_SIZE,SCREEN_WIDTH,i*UNIT_SIZE);
+//
+//
+//            }
             g.setColor(Color.RED);
             g.fillOval(appleX,appleY,UNIT_SIZE,UNIT_SIZE);
 
             for(int i=0;i<bodyParts;i++){
                 if(i==0){
-                    g.setColor(Color.GREEN);
+                    g.setColor(Color.orange);
                     g.fillRect(x[i],y[i],UNIT_SIZE,UNIT_SIZE);
                 }
                 else {
                     g.setColor(new Color(45,180,0 ));
+                  //  create a random color for a snake
+                  //  g.setColor(new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
                     g.fillRect(x[i],y[i],UNIT_SIZE,UNIT_SIZE);
                 }
             }
             g.setColor(Color.red);
-            g.setFont(new Font("Ink Free",Font.BOLD,40);
+            g.setFont(new Font("Ink Free",Font.BOLD,40));
             FontMetrics metrics = getFontMetrics(g.getFont());
-            g.drawString("Score"+ appleEaten,(SCREEN_WIDTH-metrics.stringWidth("Game Over"))/2,SCREEN_HEIGHT/2);
+            g.drawString("Score: "+ appleEaten,(SCREEN_WIDTH-metrics.stringWidth("Score: "+appleEaten))/2,g.getFont().getSize());
 
         }
         else{
@@ -139,14 +143,21 @@ public class GamePanel extends JPanel implements ActionListener {
         if(y[0]>SCREEN_HEIGHT){
             running = false;
         }
+        if(!running){
+            timer.stop();
+        }
 
 
     }
     public void gameOver(Graphics g){
         g.setColor(Color.red);
+        g.setFont(new Font("Ink Free",Font.BOLD,40));
+        FontMetrics metrics1 = getFontMetrics(g.getFont());
+        g.drawString("Score: "+ appleEaten,(SCREEN_WIDTH-metrics1.stringWidth("Score: "+appleEaten))/2,g.getFont().getSize());
+        g.setColor(Color.red);
         g.setFont(new Font("Ink Free",Font.BOLD,75));
-        FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Game Over",(SCREEN_WIDTH-metrics.stringWidth("Game Over"))/2,SCREEN_HEIGHT/2);
+        FontMetrics metrics2 = getFontMetrics(g.getFont());
+        g.drawString("Game Over",(SCREEN_WIDTH-metrics2.stringWidth("Game Over"))/2,SCREEN_HEIGHT/2);
 
     }
 
